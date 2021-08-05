@@ -339,7 +339,13 @@ static void LOG_Core(const char *profile, const int proline, const int level, co
 		LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[SUCCESS] ");
 	}
 	else{
-		LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[ERR:  %d] ", status);
+		char LOG_StatusTemp[8] = {0};
+		char LOG_StatusBuf[8] = {0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0};
+		char LOG_StatusLen = 0;
+		LOG_StatusLen = sprintf(LOG_StatusTemp, "%d", status);
+		strcpy(LOG_StatusBuf + 7 - LOG_StatusLen, LOG_StatusTemp);
+
+		LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[%s] ", LOG_StatusBuf);
 	}
 
 	LOG_TextIndex += vsprintf(LOG_Text + LOG_TextIndex, notes, args);

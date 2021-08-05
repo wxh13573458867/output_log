@@ -8,7 +8,7 @@ int main()
 	LOG_Out(LEVEL_DEBUG, 0, "用于调试打印");
 	LOG_Out(LEVEL_INFO, 0, "程序正常运行");
 	LOG_Out(LEVEL_WARNING, 0, "程序警告:%s", "警告原因");
-	LOG_Out(LEVEL_ERROR, errno - 1, "出现致命错误, 进程ID[%d], 处理结果[%s]", getpid(), "exit");
+	LOG_Out(LEVEL_ERROR, 30, "出现致命错误, 进程ID[%d], 处理结果[%s]", getpid(), "exit");
 
 	LOG_Destroy();
 	return 0;
