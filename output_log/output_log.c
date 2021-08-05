@@ -283,7 +283,7 @@ static void LOG_Destroy_Linux()
 		LOG_IsInit = 0;
 	}
 	SEM_unlock(LOG_Semid);
-//	SEM_Destroy("/tmp/log_ipc_sys_key.sem", 0x00);
+	//	SEM_Destroy("/tmp/log_ipc_sys_key.sem", 0x00);
 	return;
 }
 
@@ -296,16 +296,16 @@ static void LOG_Write_Linux(char *file, const int level, char *text, int len)
 
 	if(level == LEVEL_ERROR){
 		char cmd[1024] = {0};
-	
+
 
 		memset(cmd, 0x00, 1024);
 		sprintf(cmd, "echo \"start--------------------------------------------------------------------------\" >> %s", file);
 		system(cmd);
-		
+
 		memset(cmd, 0x00, 1024);
 		sprintf(cmd, "top -b -n 1 -p %ld >> %s", getpid(), file);
 		system(cmd);
-	
+
 		memset(cmd, 0x00, 1024);
 		sprintf(cmd, "echo \"----------------------------------------------------------------------------end\n\n\" >> %s", file);
 		system(cmd);
@@ -333,24 +333,24 @@ static void LOG_Core(const char *profile, const int proline, const int level, co
 
 	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[%02d:%02d:%02d] ", LOG_TimeTm->tm_hour,\
 			LOG_TimeTm->tm_min, LOG_TimeTm->tm_sec);
-	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[%s] ", LOG_Level[level]);
+	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[%s:", LOG_Level[level]);
 
 	if(!status){
-		LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[SUCCESS] ");
+		LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, " SUCCESS] ");
 	}
 	else{
-		char LOG_StatusTemp[8] = {0};
-		char LOG_StatusBuf[8] = {0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0};
+		char LOG_StatusTemp[8] = { 0 };
+		char LOG_StatusBuf[8] = { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0 };
 		char LOG_StatusLen = 0;
 		LOG_StatusLen = sprintf(LOG_StatusTemp, "%d", status);
 		strcpy(LOG_StatusBuf + 7 - LOG_StatusLen, LOG_StatusTemp);
 
-		LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[%s] ", LOG_StatusBuf);
+		LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, " %s] ", LOG_StatusBuf);
 	}
-
+	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[%s:", profile);
+	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "%d]\t", proline);
 	LOG_TextIndex += vsprintf(LOG_Text + LOG_TextIndex, notes, args);
-	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, " [%s:", profile);
-	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "%d]\n", proline);
+	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "\n");
 
 	if(level >= LOG_Write){
 #if defined(_WIN32) || defined(_WIN64)
