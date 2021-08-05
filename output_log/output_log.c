@@ -348,9 +348,9 @@ static void LOG_Core(const char *profile, const int proline, const int level, co
 		LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, " %s] ", LOG_StatusBuf);
 	}
 	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "[%s:", profile);
-	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "%d]\t", proline);
+	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "%d]\n\t", proline);
 	LOG_TextIndex += vsprintf(LOG_Text + LOG_TextIndex, notes, args);
-	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "\n");
+	LOG_TextIndex += sprintf(LOG_Text + LOG_TextIndex, "\n\n");
 
 	if(level >= LOG_Write){
 #if defined(_WIN32) || defined(_WIN64)
@@ -361,7 +361,7 @@ static void LOG_Core(const char *profile, const int proline, const int level, co
 	}
 
 	if(level >= LOG_Print){
-		printf("%s\n", LOG_Text);
+		printf("%s", LOG_Text);
 	}
 
 	return ;	
