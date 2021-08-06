@@ -35,6 +35,17 @@
 #define LOG_Out(level, status, ...) \
 	LOG_Output(__FILE__, __LINE__, level, status, __VA_ARGS__)
 
+#define LDEB(status, ...) \
+	LOG_Out(LEVEL_DEBUG, status, __VA_ARGS__)
+
+#define LINF(status, ...) \
+	LOG_Out(LEVEL_INFO, status, __VA_ARGS__)
+
+#define LWAR(status, ...) \
+	LOG_Out(LEVEL_WARNING, status, __VA_ARGS__)
+
+#define LERR(status, ...) \
+	LOG_Out(LEVEL_ERROR, status, __VA_ARGS__)
 
 /*
  *@brief	初始化LOG日志

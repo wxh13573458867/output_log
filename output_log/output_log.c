@@ -298,16 +298,16 @@ static void LOG_Write_Linux(char *file, const int level, char *text, int len)
 		char cmd[1024] = {0};
 
 
-		memset(cmd, 0x00, 1024);
-		sprintf(cmd, "echo \"start--------------------------------------------------------------------------\" >> %s", file);
-		system(cmd);
+//		memset(cmd, 0x00, 1024);
+//		sprintf(cmd, "echo \"-------------------------------------------------------------------------------\" >> %s", file);
+//		system(cmd);
 
 		memset(cmd, 0x00, 1024);
 		sprintf(cmd, "top -b -n 1 -p %ld >> %s", getpid(), file);
 		system(cmd);
 
 		memset(cmd, 0x00, 1024);
-		sprintf(cmd, "echo \"----------------------------------------------------------------------------end\n\n\" >> %s", file);
+		sprintf(cmd, "echo \"-------------------------------------------------------------------------------\n\n\" >> %s", file);
 		system(cmd);
 	}
 	SEM_unlock(LOG_Semid);

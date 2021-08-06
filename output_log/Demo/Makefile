@@ -5,5 +5,5 @@ Demo: Demo.c ../output_log.c
 
 .PHONY:clean
 clean:
-	rm -f Demo
+	rm -rf Demo log_out/
 
